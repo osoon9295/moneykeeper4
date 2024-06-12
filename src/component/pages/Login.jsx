@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const StLogin = styled.div`
   border: 1px solid gray;
@@ -43,6 +45,7 @@ const StButton = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [userInput, setUserInput] = useState({
     email: "",
@@ -59,7 +62,7 @@ const Login = () => {
     setUserInput({ ...userInput, password: e.target.value });
   };
 
-  const login = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!userInput.email.trim()) {
@@ -67,15 +70,35 @@ const Login = () => {
     } else if (!userInput.password.trim()) {
       return alert("비밀번호를 입력해주세요");
     } else {
-      alert("로그인 되었습니다.");
-      setUserInput({ email: "", password: "" });
+      try {
+        const response = await axios.post(
+          "https://moneyfulpublicpolicy.co.kr/login",
+          {
+            id: userInput.email,
+            password: userInput.password,
+          }
+        );
+        const data = response.data;
+
+        if (data.success) {
+          alert("로그인 되었습니다.");
+          setUserInput({ email: "", password: "" });
+          login(data.accessToken);
+          navigate("/mypage");
+        } else {
+          alert("로그인 중 오류 발생. 다시 시도해주세요.");
+        }
+      } catch (error) {
+        console.log("Login error:", error);
+        alert("L로그인 중 오류 발생. 다시 시도해주세요.");
+      }
     }
   };
 
   return (
     <StLogin>
       <StTitle>로그인</StTitle>
-      <StForm onSubmit={login}>
+      <StForm onSubmit={handleSubmit}>
         <StInput
           type="email"
           placeholder="이메일을 입력하세요"

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -80,19 +81,41 @@ const Signup = () => {
     setUserInfo({ ...userInfo, nickname: e.target.value });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     if (userInfo.password !== userInfo.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
     } else {
-      alert("회원가입되었습니다.");
-      setUserInfo({
-        email: "",
-        password: "",
-        confirmPassword: "",
-        nickname: "",
-      });
+      try {
+        setUserInfo({
+          email: "",
+          password: "",
+          confirmPassword: "",
+          nickname: "",
+        });
+
+        const response = await axios.post(
+          "https://moneyfulpublicpolicy.co.kr/register",
+          {
+            id: userInfo.email,
+            password: userInfo.password,
+            nickname: userInfo.nickname,
+          }
+        );
+
+        const data = response.data;
+
+        if (data.success) {
+          alert("회원가입이 완료되었습니다.");
+          navigate("/login");
+        } else {
+          alert("회원가입 중 오류 발생. 다시 시도해주세요.");
+        }
+      } catch (error) {
+        console.log("Signup error", error);
+        alert(error.response.data.message);
+      }
     }
   };
 

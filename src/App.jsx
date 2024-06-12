@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "./component/shared/Router";
 import { useState } from "react";
+import { AuthProvider } from "./component/context/AuthContext";
 
 const App = () => {
   const getData = () => {
@@ -12,7 +13,9 @@ const App = () => {
 
   return (
     <div>
-      <Router data={data} setData={setData} />
+      <AuthProvider>
+        <Router data={data} setData={setData} />
+      </AuthProvider>
     </div>
   );
 };
