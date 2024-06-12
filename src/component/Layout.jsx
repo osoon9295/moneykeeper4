@@ -1,8 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const StHeader = styled.header`
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+`;
+
+const StLogo = styled.div`
   background-color: rgb(237, 170, 45);
   color: white;
   font-size: 30px;
@@ -18,22 +25,45 @@ const StHeader = styled.header`
   }
 `;
 
-const Header = ({ onClick }) => {
-  return <StHeader onClick={onClick}>MONEYKEEPER</StHeader>;
-};
+const StLink = styled.div`
+  display: flex;
+  justify-content: end;
+  flex-direction: row;
+  gap: 10px;
+`;
+const StLinkButton = styled(Link)`
+  color: gray;
 
-const Layout = ({ children }) => {
+  /* position: absolute; */
+  font-size: large;
+`;
+
+const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <Header
+    <StHeader>
+      <StLink>
+        <StLinkButton to="/login">로그인</StLinkButton>
+        <StLinkButton to="/signup">회원가입</StLinkButton>
+      </StLink>
+      <StLogo
         onClick={() => {
           navigate("/");
         }}
-      />
+      >
+        MONEYKEEPER
+      </StLogo>
+    </StHeader>
+  );
+};
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Header />
       {children}
-    </div>
+    </>
   );
 };
 

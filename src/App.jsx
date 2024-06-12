@@ -7,6 +7,7 @@ const App = () => {
     const savedData = localStorage.getItem("moneykeeper");
     return savedData ? JSON.parse(savedData) : [];
   };
+
   const [data, setData] = useState(getData);
 
   return (
