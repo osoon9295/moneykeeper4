@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "./context/AuthContext";
 
 const StHeader = styled.header`
   /* position: relative; */
@@ -40,12 +41,30 @@ const StLinkButton = styled(Link)`
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      logout();
+      navigate("/");
+    }
+  };
 
   return (
     <StHeader>
       <StLink>
-        <StLinkButton to="/login">로그인</StLinkButton>
-        <StLinkButton to="/signup">회원가입</StLinkButton>
+        {isAuthenticated ? (
+          <>
+            <StLinkButton onClick={handleLogout}>로그아웃</StLinkButton>
+            <StLinkButton to="/mypage">마이페이지</StLinkButton>
+          </>
+        ) : (
+          <>
+            <StLinkButton to="/login">로그인</StLinkButton>
+            <StLinkButton to="/signup">회원가입</StLinkButton>
+          </>
+        )}
       </StLink>
       <StLogo
         onClick={() => {

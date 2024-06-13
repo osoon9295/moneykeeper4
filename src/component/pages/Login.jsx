@@ -72,7 +72,7 @@ const Login = () => {
     } else {
       try {
         const response = await axios.post(
-          "https://moneyfulpublicpolicy.co.kr/login",
+          "https://moneyfulpublicpolicy.co.kr/login?expiresIn=10h",
           {
             id: userInput.email,
             password: userInput.password,
@@ -90,7 +90,7 @@ const Login = () => {
         }
       } catch (error) {
         console.log("Login error:", error);
-        alert("L로그인 중 오류 발생. 다시 시도해주세요.");
+        alert("아이디나 비밀번호가 맞지 않습니다. 다시 시도해주세요.");
       }
     }
   };
