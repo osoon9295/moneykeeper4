@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Context } from "../context/Context";
+import { getExpense, postExpenses } from "../api/expense";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const StDetail = styled.div`
   background-color: rgb(237, 170, 45);
@@ -27,52 +28,74 @@ const StDetailForm = styled.form`
 
 const Detail = () => {
   const navigate = useNavigate();
-
-  const { expenseList, setExpenseList } = useContext(Context);
-
   const { id } = useParams();
 
-  const selectedExpenseList = expenseList.find((expense) => {
-    return expense.id === id;
+  const {
+    data: selectedExpense,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["expenses", id],
+    queryFn: getExpense,
   });
 
-  const { date, category, amount, content } = selectedExpenseList;
+  console.log(selectedExpense);
 
-  const [editDate, setEditDate] = useState(date);
-  const [editCategory, setEditCategory] = useState(category);
-  const [editAmount, setEditAmount] = useState(amount);
-  const [editContent, setEditContent] = useState(content);
+  if (isPending) {
+    return <div>로딩중입니다...</div>;
+  }
+
+  if (isError) {
+    return <div>데이터 조회 중 오류가 발생했습니다.</div>;
+  }
+
+  const { date, category, amount, content } = selectedExpense;
+
+  const [editDate, setEditDate] = useState("");
+  const [editCategory, setEditCategory] = useState("");
+  const [editAmount, setEditAmount] = useState(0);
+  const [editContent, setEditContent] = useState("");
+
+  useEffect(() => {
+    if (selectedExpense) {
+      setEditDate(date);
+      setEditCategory(category);
+      setEditAmount(amount);
+      setEditContent(content);
+    }
+  }, [selectedExpense]);
+
+  const mutation = useMutation({ mutationFn: postExpenses });
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const updateExpenseList = expenseList.map((expense) =>
-      expense.id === id
-        ? {
-            ...expense,
-            date: editDate,
-            category: editCategory,
-            amount: editAmount,
-            content: editContent,
-          }
-        : expense
-    );
+    const updateExpense = {
+      ...selectedExpense,
+      date: editDate,
+      category: editCategory,
+      amount: editAmount,
+      content: editContent,
+    };
 
-    setExpenseList(updateExpenseList);
-    localStorage.setItem("moneykeeper", JSON.stringify(updateExpenseList));
-
-    navigate("/");
+    mutation.mutate(updateExpense, {
+      onSuccess: () => {
+        alert("내용이 수정되었습니다.");
+        navigate("/");
+      },
+    });
   };
 
-  const deleteHandler = (id) => {
-    const deletedExpense = expenseList.filter((expense) => {
-      return expense.id !== id;
-    });
-
-    setExpenseList(deletedExpense);
-    localStorage.setItem("moneykeeper", JSON.stringify(deletedExpense));
-
-    navigate("/");
+  const deleteHandler = () => {
+    mutation.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          alert("내용이 삭제되었습니다.");
+          navigate("/");
+        },
+      }
+    );
   };
 
   return (
@@ -130,5 +153,4 @@ const Detail = () => {
     </StDetail>
   );
 };
-
 export default Detail;

@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getExpenses } from "./api/expense";
+import { Context } from "./context/Context";
 
 const StExpenseItem = styled.button`
   background-color: transparent;
@@ -25,7 +26,7 @@ const StSpan = styled.span`
 `;
 
 const ExpenseItem = ({ expense }) => {
-  const { id, date, category, amount, content } = expense;
+  const { id, date, category, amount, content, createBy } = expense;
 
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const ExpenseItem = ({ expense }) => {
         navigate(`/detail/${id}`);
       }}
     >
+      <StSpan>작성자: &nbsp;{createBy}</StSpan>
       <StSpan>{date}</StSpan>
       <StSpan>항목: &nbsp;{category}</StSpan>
       <StSpan>내용: &nbsp;{content}</StSpan>

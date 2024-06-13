@@ -5,9 +5,41 @@ const JSON_SERVER_HOST = "http://localhost:4000/";
 export const getExpenses = async () => {
   try {
     const response = await axios.get(`${JSON_SERVER_HOST}expenses`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    alert("뭔가 잘못된거 같아요!");
+    alert("데이터를 불러오지 못했습니다.");
+  }
+};
+
+export const getExpense = async ({ queryKey }) => {
+  try {
+    const response = await axios.get(
+      `${JSON_SERVER_HOST}expenses/${queryKey[1]}`
+    );
+    return response.data;
+  } catch (error) {
+    alert("데이터를 불러오지 못했습니다.");
+  }
+};
+
+export const postExpenses = async (newExpense) => {
+  try {
+    const response = await axios.post(
+      `${JSON_SERVER_HOST}expenses`,
+      newExpense
+    );
+    return response.data;
+  } catch (error) {
+    alert("에러가 발생했어요 ");
+  }
+};
+
+export const putExpense = async (updatedExpense) => {
+  const { id, ...rest } = updatedExpense;
+  try {
+    const response = await axios.put(`${JSON_SERVER_HOST}expenses/${id}`, rest);
+    return response.data;
+  } catch (error) {
+    alert("에러가 발생했어요 ");
   }
 };

@@ -41,7 +41,7 @@ const StLinkButton = styled(Link)`
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useContext(Context);
+  const { isAuthenticated, logout, userInfo } = useContext(Context);
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");
@@ -56,6 +56,7 @@ const Header = () => {
       <StLink>
         {isAuthenticated ? (
           <>
+            ✨환영합니다! {userInfo.nickname}님
             <StLinkButton onClick={handleLogout}>로그아웃</StLinkButton>
             <StLinkButton to="/mypage">마이페이지</StLinkButton>
           </>

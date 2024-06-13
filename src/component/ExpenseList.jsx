@@ -3,7 +3,6 @@ import ExpenseItem from "./ExpenseItem";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "./api/expense";
-import { Context } from "./context/Context";
 
 const StExpenseList = styled.div`
   height: fit-content;
@@ -16,13 +15,6 @@ const StExpenseList = styled.div`
 `;
 
 const ExpenseList = ({ selectedMonth }) => {
-  const { expenseList } = useContext(Context);
-
-  const filterdExpenseList = expenseList.filter((expense) => {
-    const date = new Date(expense.date);
-    return date.getMonth() + 1 === selectedMonth;
-  });
-
   const { data, isPending, isError } = useQuery({
     queryKey: ["expenses"],
     queryFn: getExpenses,
@@ -36,9 +28,13 @@ const ExpenseList = ({ selectedMonth }) => {
     return <div>데이터 조회 중 오류가 발생했습니다. </div>;
   }
 
+  const filterdExpenseList = data.filter(
+    (expense) => expense.month === selectedMonth
+  );
+
   return (
     <StExpenseList>
-      {data.map((expense) => {
+      {filterdExpenseList.map((expense) => {
         return <ExpenseItem key={expense.id} expense={expense} />;
       })}
     </StExpenseList>

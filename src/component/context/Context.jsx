@@ -4,6 +4,7 @@ export const Context = createContext();
 
 export const TotalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -17,21 +18,24 @@ export const TotalProvider = ({ children }) => {
     setIsAuthenticated(true);
   };
 
-  const logout = (token) => {
-    localStorage.removeItem("accessToken", token);
+  const logout = () => {
+    localStorage.removeItem("accessToken");
     setIsAuthenticated(false);
   };
-
-  const getExpenseList = () => {
-    const savedExpenseList = localStorage.getItem("moneykeeper");
-    return savedExpenseList ? JSON.parse(savedExpenseList) : [];
+  const getUserInfo = (userInfo) => {
+    setUserInfo(userInfo);
+    console.log(userInfo);
   };
-
-  const [expenseList, setExpenseList] = useState(getExpenseList);
 
   return (
     <Context.Provider
-      value={{ isAuthenticated, login, logout, expenseList, setExpenseList }}
+      value={{
+        isAuthenticated,
+        login,
+        logout,
+        getUserInfo,
+        userInfo,
+      }}
     >
       {children}
     </Context.Provider>

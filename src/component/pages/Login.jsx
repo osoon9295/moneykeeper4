@@ -45,7 +45,7 @@ const StButton = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(Context);
+  const { login, getUserInfo } = useContext(Context);
 
   const [userInput, setUserInput] = useState({
     email: "",
@@ -84,6 +84,7 @@ const Login = () => {
           alert("로그인 되었습니다.");
           setUserInput({ email: "", password: "" });
           login(data.accessToken);
+          getUserInfo(data);
           navigate("/mypage");
         } else {
           alert("로그인 중 오류 발생. 다시 시도해주세요.");

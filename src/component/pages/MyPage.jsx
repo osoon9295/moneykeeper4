@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getUserInfo } from "../api/userInfo";
 
 const StMyPage = styled.div`
   border: 1px solid gray;
@@ -67,23 +68,7 @@ const MyPage = () => {
       alert("로그인이 필요합니다.");
       navigate("/login");
     } else {
-      const fetchUserInfo = async () => {
-        try {
-          const token = localStorage.getItem("accessToken");
-          const response = await axios.get(
-            "https://moneyfulpublicpolicy.co.kr/user",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setUserInfo(response.data);
-        } catch (error) {
-          console.log("회원정보를 가져오지 못했습니다.", error);
-        }
-      };
-      fetchUserInfo();
+      getUserInfo();
     }
   }, [isAuthenticated, navigate]);
 

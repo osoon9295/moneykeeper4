@@ -1,3 +1,37 @@
 {
-  "expenses": []
+  "expenses": [
+    {
+      "id": "dad2",
+      "date": "2024-06-11",
+      "month": 6,
+      "category": "💰",
+      "amount": 100000,
+      "content": "저금"
+    },
+    {
+      "id": "d7dd",
+      "date": "2024-06-13",
+      "month": 6,
+      "category": "🍔",
+      "amount": 10000,
+      "content": "햄버거"
+    },
+    {
+      "id": "053f",
+      "date": "2024-06-13",
+      "month": 6,
+      "category": "🍔",
+      "amount": 50000,
+      "content": "하이디라오",
+      "createdBy": "1111@gmail.com"
+    },
+    {
+      "id": "57ca",
+      "date": "2024-06-10",
+      "month": 6,
+      "category": "🍔",
+      "amount": 5000,
+      "content": "아이스크림"
+    }
+  ]
 }
