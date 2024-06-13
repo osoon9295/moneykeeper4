@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "./context/AuthContext";
+import { Context } from "./context/Context";
 
 const StHeader = styled.header`
   /* position: relative; */
@@ -41,7 +41,7 @@ const StLinkButton = styled(Link)`
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, logout } = useContext(Context);
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");

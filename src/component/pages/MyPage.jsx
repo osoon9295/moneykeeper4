@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { AuthContext } from "../context/AuthContext";
+import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -13,7 +13,7 @@ const StMyPage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0px auto;
+  margin: 0 auto 10% auto;
   gap: 10px;
 `;
 
@@ -58,7 +58,7 @@ const MyPage = () => {
     newNickname: "",
     newImage: null,
   });
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(Context);
   const navigate = useNavigate();
 
   // 회원정보 가져오기

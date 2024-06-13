@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import uuid from "react-uuid";
+import { Context } from "./context/Context";
 
 const StForm = styled.div`
   width: 750px;
@@ -12,7 +13,9 @@ const StForm = styled.div`
   flex-direction: row;
 `;
 
-const Form = ({ data, setData }) => {
+const Form = () => {
+  const { expenseList, setExpenseList } = useContext(Context);
+
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState(0);
@@ -21,17 +24,17 @@ const Form = ({ data, setData }) => {
   const addValue = (e) => {
     e.preventDefault();
 
-    const newData = {
-      id: uuid(),
+    const newExpense = {
+      // id: uuid(),
       date: date,
       category: category,
       amount: Number(amount),
       content: content,
     };
 
-    const updateData = [...data, newData];
-    setData(updateData);
-    localStorage.setItem("moneykeeper", JSON.stringify(updateData));
+    const updateExpenseList = [...expenseList, newExpense];
+    setExpenseList(updateExpenseList);
+    localStorage.setItem("moneykeeper", JSON.stringify(updateExpenseList));
 
     setDate("");
     setCategory("");

@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext();
+export const Context = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const TotalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -22,9 +22,18 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
+  const getExpenseList = () => {
+    const savedExpenseList = localStorage.getItem("moneykeeper");
+    return savedExpenseList ? JSON.parse(savedExpenseList) : [];
+  };
+
+  const [expenseList, setExpenseList] = useState(getExpenseList);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <Context.Provider
+      value={{ isAuthenticated, login, logout, expenseList, setExpenseList }}
+    >
       {children}
-    </AuthContext.Provider>
+    </Context.Provider>
   );
 };

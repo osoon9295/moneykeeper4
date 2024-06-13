@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { Context } from "../context/Context";
 
 const StDetail = styled.div`
   background-color: rgb(237, 170, 45);
@@ -24,16 +25,18 @@ const StDetailForm = styled.form`
   flex-direction: column;
 `;
 
-const Detail = ({ data, setData }) => {
+const Detail = () => {
   const navigate = useNavigate();
+
+  const { expenseList, setExpenseList } = useContext(Context);
 
   const { id } = useParams();
 
-  const selectedData = data.find((datum) => {
-    return datum.id === id;
+  const selectedExpenseList = expenseList.find((expense) => {
+    return expense.id === id;
   });
 
-  const { date, category, amount, content } = selectedData;
+  const { date, category, amount, content } = selectedExpenseList;
 
   const [editDate, setEditDate] = useState(date);
   const [editCategory, setEditCategory] = useState(category);
@@ -43,31 +46,31 @@ const Detail = ({ data, setData }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const updateData = data.map((datum) =>
-      datum.id === id
+    const updateExpenseList = expenseList.map((expense) =>
+      expense.id === id
         ? {
-            ...datum,
+            ...expense,
             date: editDate,
             category: editCategory,
             amount: editAmount,
             content: editContent,
           }
-        : datum
+        : expense
     );
 
-    setData(updateData);
-    localStorage.setItem("moneykeeper", JSON.stringify(updateData));
+    setExpenseList(updateExpenseList);
+    localStorage.setItem("moneykeeper", JSON.stringify(updateExpenseList));
 
     navigate("/");
   };
 
   const deleteHandler = (id) => {
-    const deletedData = data.filter((datum) => {
-      return datum.id !== id;
+    const deletedExpense = expenseList.filter((expense) => {
+      return expense.id !== id;
     });
 
-    setData(deletedData);
-    localStorage.setItem("moneykeeper", JSON.stringify(deletedData));
+    setExpenseList(deletedExpense);
+    localStorage.setItem("moneykeeper", JSON.stringify(deletedExpense));
 
     navigate("/");
   };

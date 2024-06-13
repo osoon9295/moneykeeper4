@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Form from "../Form";
 import Months from "../Months";
-import { useState } from "react";
+import { Context } from "../context/Context";
 
-const Home = ({ data, setData }) => {
-  // const getData = () => {
-  //   const savedData = localStorage.getItem("moneykeeper");
-  //   return savedData ? JSON.parse(savedData) : [];
-  // };
-  // const [data, setData] = useState(getData);
+const Home = () => {
+  const { expenseList, setExpenseList } = useContext(Context);
+
   return (
     <div>
-      <Form data={data} setData={setData} />
-      <Months data={data} />
+      <Form />
+      <Months />
     </div>
   );
 };

@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getExpenses } from "./api/expense";
 
 const StExpenseItem = styled.button`
   background-color: transparent;
@@ -22,8 +24,8 @@ const StSpan = styled.span`
   margin: 10px;
 `;
 
-const ExpenseItem = ({ datum }) => {
-  const { id, date, category, amount, content } = datum;
+const ExpenseItem = ({ expense }) => {
+  const { id, date, category, amount, content } = expense;
 
   const navigate = useNavigate();
 

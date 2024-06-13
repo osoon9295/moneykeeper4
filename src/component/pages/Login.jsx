@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "../context/AuthContext";
+import { Context } from "../context/Context";
 import axios from "axios";
 
 const StLogin = styled.div`
@@ -45,7 +45,7 @@ const StButton = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login } = useContext(Context);
 
   const [userInput, setUserInput] = useState({
     email: "",
