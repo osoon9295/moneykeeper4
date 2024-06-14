@@ -26,7 +26,7 @@ const StSpan = styled.span`
 `;
 
 const ExpenseItem = ({ expense }) => {
-  const { id, date, category, amount, content, createBy } = expense;
+  const { id, date, category, amount, content, createdBy } = expense;
 
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const ExpenseItem = ({ expense }) => {
         navigate(`/detail/${id}`);
       }}
     >
-      <StSpan>작성자: &nbsp;{createBy}</StSpan>
+      <StSpan>작성자: &nbsp;{createdBy}</StSpan>
       <StSpan>{date}</StSpan>
       <StSpan>항목: &nbsp;{category}</StSpan>
       <StSpan>내용: &nbsp;{content}</StSpan>
