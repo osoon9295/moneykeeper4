@@ -72,7 +72,7 @@ const Login = () => {
     } else {
       try {
         const response = await axios.post(
-          "https://moneyfulpublicpolicy.co.kr/login?expiresIn=10h",
+          "https://moneyfulpublicpolicy.co.kr/login?expiresIn=30m",
           {
             id: userInput.email,
             password: userInput.password,

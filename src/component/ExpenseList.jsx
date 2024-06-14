@@ -31,11 +31,20 @@ const ExpenseList = ({ selectedMonth }) => {
   const filterdExpenseList = data.filter(
     (expense) => expense.month === selectedMonth
   );
-  console.log(data);
+
+  const sortedExpenseList = filterdExpenseList
+    .map((expense) => {
+      return { ...expense, date: Number(expense.date) };
+    })
+    .sort((a, b) => {
+      return date.b - date.a;
+    });
+
+  console.log(sortedExpenseList);
 
   return (
     <StExpenseList>
-      {filterdExpenseList.map((expense) => {
+      {sortedExpenseList.map((expense) => {
         return <ExpenseItem key={expense.id} expense={expense} />;
       })}
     </StExpenseList>

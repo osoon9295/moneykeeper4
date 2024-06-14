@@ -15,6 +15,7 @@ export const TotalProvider = ({ children }) => {
     if (token) {
       getUserInfo()
         .then((res) => {
+          // console.log("res", res);
           setUserInfo(res);
           setIsAuthenticated(true);
         })
@@ -34,6 +35,7 @@ export const TotalProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setIsAuthenticated(false);
+    setUserInfo({});
   };
 
   return (
