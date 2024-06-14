@@ -1,12 +1,12 @@
 {
   "expenses": [
     {
-      "id": "dad2",
       "date": "2024-06-11",
       "month": 6,
       "category": "💰",
       "amount": 100000,
-      "content": "저금"
+      "content": "저금인듯 아닌듯",
+      "id": "dad2"
     },
     {
       "id": "d7dd",
@@ -32,6 +32,15 @@
       "category": "🍔",
       "amount": 5000,
       "content": "아이스크림"
+    },
+    {
+      "id": "e18a",
+      "date": "2024-06-01",
+      "month": 6,
+      "category": "🏠",
+      "amount": 500000,
+      "content": "6월월세",
+      "createdBy": "1111@gmail.com"
     }
   ]
 }

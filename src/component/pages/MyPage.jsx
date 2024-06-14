@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Context } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { getUserInfo } from "../api/userInfo";
 
 const StMyPage = styled.div`
   border: 1px solid gray;
@@ -54,12 +53,11 @@ const StButton = styled.button`
 `;
 
 const MyPage = () => {
-  const [userInfo, setUserInfo] = useState(null);
   const [newProfile, setNewProfile] = useState({
     newNickname: "",
     newImage: null,
   });
-  const { isAuthenticated } = useContext(Context);
+  const { isAuthenticated, userInfo, setUserInfo } = useContext(Context);
   const navigate = useNavigate();
 
   // 회원정보 가져오기
@@ -67,8 +65,6 @@ const MyPage = () => {
     if (!isAuthenticated) {
       alert("로그인이 필요합니다.");
       navigate("/login");
-    } else {
-      getUserInfo();
     }
   }, [isAuthenticated, navigate]);
 
@@ -114,6 +110,7 @@ const MyPage = () => {
     }
   };
 
+  console.log(userInfo);
   if (!userInfo) {
     return <div>Loading...</div>;
   }
@@ -125,7 +122,7 @@ const MyPage = () => {
       <StTitle>My Page</StTitle>
       <StProfileImage src={userInfo.avatar} />
       <p> 안녕하세요 {userInfo.nickname}님 </p>
-      <p> ID : {userInfo.id} </p>
+      <p> ID : {userInfo.userId} </p>
 
       <StForm onSubmit={handleProfileChange}>
         <StInput

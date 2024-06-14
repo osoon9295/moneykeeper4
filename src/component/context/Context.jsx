@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
+import { getUserInfo } from "../api/userInfo";
+import { useNavigate } from "react-router-dom";
 
 export const Context = createContext();
 
@@ -6,10 +8,21 @@ export const TotalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      setIsAuthenticated(true);
+      getUserInfo()
+        .then((res) => {
+          setUserInfo(res);
+          setIsAuthenticated(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("회원정보를 가져오지 못했습니다.");
+          navigate("/login");
+        });
     }
   }, []);
 
@@ -22,10 +35,11 @@ export const TotalProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
     setIsAuthenticated(false);
   };
-  const getUserInfo = (userInfo) => {
-    setUserInfo(userInfo);
-    console.log(userInfo);
-  };
+
+  // const getUserInfo = (userInfo) => {
+  //   setUserInfo(userInfo);
+  //   console.log(userInfo);
+  // };
 
   return (
     <Context.Provider
@@ -33,7 +47,7 @@ export const TotalProvider = ({ children }) => {
         isAuthenticated,
         login,
         logout,
-        getUserInfo,
+        setUserInfo,
         userInfo,
       }}
     >

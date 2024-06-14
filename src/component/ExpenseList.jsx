@@ -31,6 +31,7 @@ const ExpenseList = ({ selectedMonth }) => {
   const filterdExpenseList = data.filter(
     (expense) => expense.month === selectedMonth
   );
+  console.log(data);
 
   return (
     <StExpenseList>

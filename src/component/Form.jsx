@@ -3,11 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Context } from "./context/Context";
 import { postExpenses } from "./api/expense";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 const StForm = styled.div`
@@ -49,7 +45,7 @@ const Form = () => {
       content: content,
       createdBy: userInfo.userId,
     };
-
+    console.log(newExpense);
     mutation.mutate(newExpense);
 
     setDate("");

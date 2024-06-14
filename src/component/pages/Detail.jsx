@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getExpense, postExpenses } from "../api/expense";
+import { getExpense, deleteExpense, putExpense } from "../api/expense";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const StDetail = styled.div`
@@ -39,18 +39,6 @@ const Detail = () => {
     queryFn: getExpense,
   });
 
-  console.log(selectedExpense);
-
-  if (isPending) {
-    return <div>로딩중입니다...</div>;
-  }
-
-  if (isError) {
-    return <div>데이터 조회 중 오류가 발생했습니다.</div>;
-  }
-
-  const { date, category, amount, content } = selectedExpense;
-
   const [editDate, setEditDate] = useState("");
   const [editCategory, setEditCategory] = useState("");
   const [editAmount, setEditAmount] = useState(0);
@@ -58,6 +46,8 @@ const Detail = () => {
 
   useEffect(() => {
     if (selectedExpense) {
+      const { date, category, amount, content } = selectedExpense;
+
       setEditDate(date);
       setEditCategory(category);
       setEditAmount(amount);
@@ -65,7 +55,21 @@ const Detail = () => {
     }
   }, [selectedExpense]);
 
-  const mutation = useMutation({ mutationFn: postExpenses });
+  const mutationEdit = useMutation({
+    mutationFn: putExpense,
+    onSuccess: () => {
+      navigate("/");
+      queryClient.invalidateQueries(["expenses"]);
+    },
+  });
+
+  const mutationDelete = useMutation({
+    mutationFn: deleteExpense,
+    onSuccess: () => {
+      navigate("/");
+      queryClient.invalidateQueries(["expenses"]);
+    },
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -78,26 +82,20 @@ const Detail = () => {
       content: editContent,
     };
 
-    mutation.mutate(updateExpense, {
-      onSuccess: () => {
-        alert("내용이 수정되었습니다.");
-        navigate("/");
-      },
-    });
+    mutationEdit.mutate(updateExpense);
   };
 
   const deleteHandler = () => {
-    mutation.mutate(
-      { id },
-      {
-        onSuccess: () => {
-          alert("내용이 삭제되었습니다.");
-          navigate("/");
-        },
-      }
-    );
+    mutationDelete.mutate(id);
   };
 
+  if (isPending) {
+    return <div>로딩중입니다...</div>;
+  }
+
+  if (isError) {
+    return <div>데이터 조회 중 오류가 발생했습니다.</div>;
+  }
   return (
     <StDetail>
       <StDetailForm onSubmit={submitHandler}>
