@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import ExpenseList from "./ExpenseList";
 import { useState } from "react";
-import { getExpenses } from "./api/expense";
 
 const StMonthList = styled.div`
   margin: 30px auto;
@@ -13,7 +12,6 @@ const StMonthList = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  /* background-color: green; */
 `;
 
 const StMonthButton = styled.button`

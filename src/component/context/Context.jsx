@@ -15,7 +15,6 @@ export const TotalProvider = ({ children }) => {
     if (token) {
       getUserInfo()
         .then((res) => {
-          // console.log("res", res);
           setUserInfo(res);
           setIsAuthenticated(true);
         })

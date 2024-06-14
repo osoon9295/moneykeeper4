@@ -10,5 +10,4 @@ export const getUserInfo = async () => {
     },
   });
   return response.data;
-  // alert("회원정보를 가져오지 못했습니다.");
 };

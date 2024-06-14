@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Context } from "./context/Context";
 
 const StHeader = styled.header`
-  /* position: relative; */
   display: flex;
   flex-direction: column;
   padding: 5%;
@@ -34,8 +33,6 @@ const StLink = styled.div`
 `;
 const StLinkButton = styled(Link)`
   color: gray;
-
-  /* position: absolute; */
   font-size: large;
 `;
 

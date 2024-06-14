@@ -5,9 +5,7 @@ import { TotalProvider } from "./component/context/Context";
 const App = () => {
   return (
     <div>
-      {/* <TotalProvider> */}
       <Router />
-      {/* </TotalProvider> */}
     </div>
   );
 };
