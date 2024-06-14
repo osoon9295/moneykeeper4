@@ -32,13 +32,9 @@ const ExpenseList = ({ selectedMonth }) => {
     (expense) => expense.month === selectedMonth
   );
 
-  const sortedExpenseList = filterdExpenseList
-    .map((expense) => {
-      return { ...expense, date: Number(expense.date) };
-    })
-    .sort((a, b) => {
-      return date.b - date.a;
-    });
+  const sortedExpenseList = filterdExpenseList.sort((a, b) =>
+    b.date.localeCompare(a.date)
+  );
 
   console.log(sortedExpenseList);
 
