@@ -110,7 +110,6 @@ const MyPage = () => {
     }
   };
 
-  console.log(userInfo);
   if (!userInfo) {
     return <div>Loading...</div>;
   }
