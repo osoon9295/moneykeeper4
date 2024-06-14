@@ -36,11 +36,6 @@ export const TotalProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  // const getUserInfo = (userInfo) => {
-  //   setUserInfo(userInfo);
-  //   console.log(userInfo);
-  // };
-
   return (
     <Context.Provider
       value={{

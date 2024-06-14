@@ -41,6 +41,39 @@
       "amount": 500000,
       "content": "6월월세",
       "createdBy": "1111@gmail.com"
+    },
+    {
+      "id": "1622",
+      "date": "2024-06-04",
+      "month": 6,
+      "category": "🍔",
+      "amount": 1000,
+      "content": "아이스크림"
+    },
+    {
+      "id": "9935",
+      "date": "2024-06-12",
+      "month": 6,
+      "category": "🍔",
+      "amount": 500,
+      "content": "아이스크림"
+    },
+    {
+      "id": "88c4",
+      "date": "2024-06-09",
+      "month": 6,
+      "category": "✔️",
+      "amount": 11000,
+      "content": "세금"
+    },
+    {
+      "id": "35d4",
+      "date": "2024-06-11",
+      "month": 6,
+      "category": "etc.",
+      "amount": 2000,
+      "content": "회비",
+      "createdBy": "1111@gmail.com"
     }
   ]
 }
