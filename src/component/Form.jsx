@@ -30,7 +30,8 @@ const Form = () => {
     mutationFn: postExpenses,
     onSuccess: () => {
       queryClient.invalidateQueries(["expenses"]);
-      navigate(0);
+      // 새로고침 -> state가 날라감 -> user도 날라감
+      // navigate(0);
     },
   });
 
