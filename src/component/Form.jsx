@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import uuid from "react-uuid";
+import { Context } from "./context/Context";
+import { postExpenses } from "./api/expense";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const StForm = styled.div`
   width: 750px;
@@ -12,26 +15,38 @@ const StForm = styled.div`
   flex-direction: row;
 `;
 
-const Form = ({ data, setData }) => {
+const Form = () => {
+  const { userInfo } = useContext(Context);
+
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState(0);
   const [content, setContent] = useState("");
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: postExpenses,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["expenses"]);
+      navigate(0);
+    },
+  });
 
   const addValue = (e) => {
     e.preventDefault();
 
-    const newData = {
-      id: uuid(),
+    const newExpense = {
       date: date,
+      month: new Date(date).getMonth() + 1,
       category: category,
       amount: Number(amount),
       content: content,
+      createdBy: userInfo.userId,
     };
-
-    const updateData = [...data, newData];
-    setData(updateData);
-    localStorage.setItem("moneykeeper", JSON.stringify(updateData));
+    console.log(newExpense);
+    mutation.mutate(newExpense);
 
     setDate("");
     setCategory("");

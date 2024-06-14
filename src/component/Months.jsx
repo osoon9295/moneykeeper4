@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import ExpenseList from "./ExpenseList";
 import { useState } from "react";
+import { getExpenses } from "./api/expense";
 
 const StMonthList = styled.div`
   margin: 30px auto;
@@ -29,7 +30,7 @@ const StMonthButton = styled.button`
   }
 `;
 
-const Months = ({ data }) => {
+const Months = () => {
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const [selectedMonth, setSelectedMonth] = useState(null);
 
@@ -46,7 +47,7 @@ const Months = ({ data }) => {
           </StMonthButton>
         ))}
       </StMonthList>
-      <ExpenseList data={data} selectedMonth={selectedMonth} />
+      <ExpenseList selectedMonth={selectedMonth} />
     </div>
   );
 };

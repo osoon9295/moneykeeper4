@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getExpense, deleteExpense, putExpense } from "../api/expense";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const StDetail = styled.div`
   background-color: rgb(237, 170, 45);
@@ -24,54 +26,76 @@ const StDetailForm = styled.form`
   flex-direction: column;
 `;
 
-const Detail = ({ data, setData }) => {
+const Detail = () => {
   const navigate = useNavigate();
-
   const { id } = useParams();
 
-  const selectedData = data.find((datum) => {
-    return datum.id === id;
+  const {
+    data: selectedExpense,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["expenses", id],
+    queryFn: getExpense,
   });
 
-  const { date, category, amount, content } = selectedData;
+  const [editDate, setEditDate] = useState("");
+  const [editCategory, setEditCategory] = useState("");
+  const [editAmount, setEditAmount] = useState(0);
+  const [editContent, setEditContent] = useState("");
 
-  const [editDate, setEditDate] = useState(date);
-  const [editCategory, setEditCategory] = useState(category);
-  const [editAmount, setEditAmount] = useState(amount);
-  const [editContent, setEditContent] = useState(content);
+  useEffect(() => {
+    if (selectedExpense) {
+      const { date, category, amount, content } = selectedExpense;
+
+      setEditDate(date);
+      setEditCategory(category);
+      setEditAmount(amount);
+      setEditContent(content);
+    }
+  }, [selectedExpense]);
+
+  const mutationEdit = useMutation({
+    mutationFn: putExpense,
+    onSuccess: () => {
+      navigate("/");
+      queryClient.invalidateQueries(["expenses"]);
+    },
+  });
+
+  const mutationDelete = useMutation({
+    mutationFn: deleteExpense,
+    onSuccess: () => {
+      navigate("/");
+      queryClient.invalidateQueries(["expenses"]);
+    },
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const updateData = data.map((datum) =>
-      datum.id === id
-        ? {
-            ...datum,
-            date: editDate,
-            category: editCategory,
-            amount: editAmount,
-            content: editContent,
-          }
-        : datum
-    );
+    const updateExpense = {
+      ...selectedExpense,
+      date: editDate,
+      category: editCategory,
+      amount: editAmount,
+      content: editContent,
+    };
 
-    setData(updateData);
-    localStorage.setItem("moneykeeper", JSON.stringify(updateData));
-
-    navigate("/");
+    mutationEdit.mutate(updateExpense);
   };
 
-  const deleteHandler = (id) => {
-    const deletedData = data.filter((datum) => {
-      return datum.id !== id;
-    });
-
-    setData(deletedData);
-    localStorage.setItem("moneykeeper", JSON.stringify(deletedData));
-
-    navigate("/");
+  const deleteHandler = () => {
+    mutationDelete.mutate(id);
   };
 
+  if (isPending) {
+    return <div>로딩중입니다...</div>;
+  }
+
+  if (isError) {
+    return <div>데이터 조회 중 오류가 발생했습니다.</div>;
+  }
   return (
     <StDetail>
       <StDetailForm onSubmit={submitHandler}>
@@ -127,5 +151,4 @@ const Detail = ({ data, setData }) => {
     </StDetail>
   );
 };
-
 export default Detail;
