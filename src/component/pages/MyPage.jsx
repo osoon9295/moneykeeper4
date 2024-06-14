@@ -110,7 +110,6 @@ const MyPage = () => {
     }
   };
 
-  console.log(userInfo);
   if (!userInfo) {
     return <div>Loading...</div>;
   }
@@ -122,7 +121,7 @@ const MyPage = () => {
       <StTitle>My Page</StTitle>
       <StProfileImage src={userInfo.avatar} />
       <p> 안녕하세요 {userInfo.nickname}님 </p>
-      <p> ID : {userInfo.userId} </p>
+      <p> ID : {userInfo.userId ? userInfo.userId : userInfo.id} </p>
 
       <StForm onSubmit={handleProfileChange}>
         <StInput

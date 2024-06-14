@@ -52,6 +52,7 @@ const Form = () => {
       content: content,
       createdBy: userInfo.userId,
     };
+    console.log(newExpense);
 
     mutation.mutate(newExpense);
 
