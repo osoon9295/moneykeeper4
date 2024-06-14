@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { Context } from "./context/Context";
@@ -50,7 +50,7 @@ const Form = () => {
       category: category,
       amount: Number(amount),
       content: content,
-      createdBy: userInfo.userId,
+      createdBy: userInfo.userId ? userInfo.userId : userInfo.id,
     };
     console.log(newExpense);
 

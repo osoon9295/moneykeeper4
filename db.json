@@ -125,6 +125,15 @@
       "amount": 15000,
       "content": "마라탕",
       "createdBy": "2222@gmail.com"
+    },
+    {
+      "id": "27ed",
+      "date": "2024-03-14",
+      "month": 3,
+      "category": "etc.",
+      "amount": 50000,
+      "content": "선물",
+      "createdBy": "4444@gmail.com"
     }
   ]
 }
