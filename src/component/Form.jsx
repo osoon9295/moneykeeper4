@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { Context } from "./context/Context";
@@ -16,7 +16,7 @@ const StForm = styled.div`
 `;
 
 const Form = () => {
-  const { userInfo } = useContext(Context);
+  const { userInfo, isAuthenticated } = useContext(Context);
 
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
@@ -38,6 +38,12 @@ const Form = () => {
   const addValue = (e) => {
     e.preventDefault();
 
+    if (!isAuthenticated) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
+
     const newExpense = {
       date: date,
       month: new Date(date).getMonth() + 1,
@@ -46,7 +52,7 @@ const Form = () => {
       content: content,
       createdBy: userInfo.userId,
     };
-    console.log(newExpense);
+
     mutation.mutate(newExpense);
 
     setDate("");

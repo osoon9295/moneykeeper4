@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getExpenses } from "./api/expense";
 import { Context } from "./context/Context";
 
 const StExpenseItem = styled.button`
@@ -13,6 +11,9 @@ const StExpenseItem = styled.button`
   border: 1px solid white;
   border-radius: 10px;
   color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
   &:hover {
     background-color: white;
@@ -26,6 +27,7 @@ const StSpan = styled.span`
 `;
 
 const ExpenseItem = ({ expense }) => {
+  const { userInfo } = useContext(Context);
   const { id, date, category, amount, content, createdBy } = expense;
 
   const navigate = useNavigate();
@@ -33,7 +35,9 @@ const ExpenseItem = ({ expense }) => {
   return (
     <StExpenseItem
       onClick={() => {
-        navigate(`/detail/${id}`);
+        userInfo.userId === createdBy
+          ? navigate(`/detail/${id}`)
+          : alert("작성자만 접근 할 수 있습니다. ");
       }}
     >
       <StSpan>작성자: &nbsp;{createdBy}</StSpan>
